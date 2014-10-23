@@ -20,14 +20,28 @@ parser.add_argument('-R', action='store_const', const=True, default=False,
 parser.add_argument('-L', action='store_const', const=True, default=False,
                     help='Follow symbolic links.')
 
+parser.add_argument('--no-smiles', action='store_const', const=True,
+                    dest='nsm', default=False, help='No show smiles.')
+
 args = parser.parse_args()
 
-
-def print_result(path, result):
+def print_with_smile(path, result):
     if result:
         print path + ": " + colored(';D', 'green', attrs=['bold'])
     else:
         print path + ": " + colored(':(', 'red')
+
+
+def print_result(path, result):
+
+    if not args.nsm:
+        print_with_smile(path, result)
+        return
+
+    if result:
+        print colored(path, 'green', attrs=['bold'])
+    else:
+        print colored(path, 'red')
 
 
 for file_ in args.files:
