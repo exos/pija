@@ -23,6 +23,10 @@ parser.add_argument('-L', action='store_const', const=True, default=False,
 parser.add_argument('--no-smiles', action='store_const', const=True,
                     dest='nsm', default=False, help='No show smiles.')
 
+parser.add_argument('--only-matches', action='store_const', const=True,
+                    dest='onlymatches', default=False,
+                    help='Only show matches files.')
+
 args = parser.parse_args()
 
 def print_with_smile(path, result):
@@ -33,6 +37,9 @@ def print_with_smile(path, result):
 
 
 def print_result(path, result):
+
+    if args.onlymatches and not result:
+        return
 
     if not args.nsm:
         print_with_smile(path, result)
